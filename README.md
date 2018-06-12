@@ -37,16 +37,21 @@ export default class DoYouLikeVanYouXi extends React.Component<{}, IState> {
 ##### 第二步：添加路由
 在 `src/routes.ts` 里面的 routes 数组中添加一项
 ```typescript
-{
-  component: , // 你肛肛创建的组件
-  meta: {
-    TA: 'van', // TA名字
-    members: ['比利', '木吉'], // 成员们的名字
-    name: 'Do you like van 游戏', // 页面的标题
-    title: 'Oh Yes Sir' // 导航栏的label
-  },
-  path: '/do-you-like-van-youxi', // 路由路径
-}
+import DoYouLikeVanYouXi from './pages/DoYouLikeVanYouXi';
+
+const routes: IRoute[] = [
+  ...,
+  {
+    component: DoYouLikeVanYouXi, // 你肛肛创建的组件
+    meta: {
+      TA: 'van', // TA名字
+      members: ['比利', '木吉'], // 成员们的名字
+      name: 'Do you like van 游戏', // 页面的标题
+      title: 'Oh Yes Sir' // 导航栏的label
+    },
+    path: '/do-you-like-van-youxi', // 路由路径
+  }
+];
 ```
 
 现在你可以尝试使用 `npm start` 查看效果
