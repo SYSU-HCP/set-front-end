@@ -36,7 +36,7 @@ export default class DoYouLikeVanYouXi extends React.Component<{}, IState> {
 
 ##### 第二步：添加路由
 在 `src/routes.ts` 里面的 routes 数组中添加一项
-```json
+```typescript
 {
   component: , // 你肛肛创建的组件
   meta: {
