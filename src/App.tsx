@@ -21,6 +21,7 @@ class App extends React.Component {
           <Sider
             breakpoint="lg"
             collapsedWidth="0"
+            width={160}
           >
             <div className="logo" />
             { this.renderMenu() }

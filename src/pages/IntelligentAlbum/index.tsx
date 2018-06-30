@@ -1,4 +1,4 @@
-import { UploadFile } from '_antd@3.6.2@antd/lib/upload/interface';
+// import { UploadFile } from '_antd@3.6.2@antd/lib/upload/interface';
 import { Button, Icon, Input, Modal, Upload } from 'antd';
 import * as React from 'react';
 import './index.css';
@@ -89,7 +89,7 @@ export default class IntelligentAlbum extends React.PureComponent {
             <Upload
               action="//jsonplaceholder.typicode.com/posts/"
               listType="picture-card"
-              fileList={fileList as UploadFile[]}
+              fileList={fileList as any[]}
               onPreview={this.handlePreview}
               onChange={this.handleChange}
               className="upload"
