@@ -1,4 +1,3 @@
-// import { UploadFile } from '_antd@3.6.2@antd/lib/upload/interface';
 import { Button, Icon, Input, Modal, Upload } from 'antd';
 import * as React from 'react';
 import './index.css';
