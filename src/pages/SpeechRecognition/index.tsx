@@ -1,8 +1,10 @@
-import { Button, Card, Col, Progress, Row } from 'antd';
+import { Button, Card, Col, message, Progress, Row } from 'antd';
+import axios from 'axios';
 import * as React from 'react';
 import './index.css';
 
 interface IAudio {
+  id: number;
   name: string;
   source: string;
 }
@@ -15,15 +17,19 @@ type IState = Readonly<{
 
 const initialState: IState = {
   audios: [{
+    id: 1,
     name: '测试',
     source: 'http://fjdx.sc.chinaz.com/Files/DownLoad/sound1/201807/10310.mp3'
   }, {
+    id: 2,
     name: '测试',
     source: 'http://fjdx.sc.chinaz.com/Files/DownLoad/sound1/201807/10310.mp3'
   }, {
+    id: 3,
     name: '测试',
     source: 'http://fjdx.sc.chinaz.com/Files/DownLoad/sound1/201807/10310.mp3'
   }, {
+    id: 4,
     name: '测试',
     source: 'http://fjdx.sc.chinaz.com/Files/DownLoad/sound1/201807/10310.mp3'
   } ],
@@ -77,9 +83,13 @@ export default class SpeechRecognition extends React.PureComponent<{}, IState> {
 
   private upload = async (audio: IAudio) => {
     this.fakeProgress(true);
-    setTimeout(() => {
-      this.setState({ uploadState: 1, result: '测试语音' })
-    }, 8000);
+    try {
+      const result = await axios.post('/api/voiceRecognition/uploadId', audio.id);
+      this.setState({ uploadState: 1, uploadProgress: 100, result: result.data.toString() });
+    } catch(e) {
+      message.error(e.response.data.msg);
+      this.setState({ uploadState: 2, uploadProgress: 100, result: '' });
+    }
   };
 
   private fakeProgress = (start: boolean | undefined) => {
