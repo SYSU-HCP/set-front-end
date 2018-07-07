@@ -35,17 +35,20 @@ export default class Region extends React.Component<any, IState> {
   public async onChange(info: any) {
     if (info.file.status !== 'uploading' && info.file.status !== 'removed') {
       try {
-        // const param = new FormData()
-        // param.append('file', info.file, info.file.name)
-        // const config = {
-        //   headers: {'Content-Type': 'multipart/form-data'}
-        // }
-        // const res = await axios.post('/api/mir/', param, config)
-        // this.setState({
-        //   resImgSelected: res.data.data.heatmapImageUrls.length && res.data.data.heatmapImageUrls[0],
-        //   resImgs: res.data.data.heatmapImageUrls,
-        //   text: res.data.data.captions
-        // })
+        const param = new FormData()
+        param.append('img', info.file, info.file.name)
+        const config = {
+          headers: {'Content-Type': 'multipart/form-data'}
+        }
+        const res = await axios.post('/api/visualize/detection', param, config)
+        this.setState({
+          campicture: res.data.data.campicture,
+          gamcampicture: res.data.data.gamcampicture,
+          gampicture: res.data.data.gampicture,
+          gampredict: res.data.data.gampredict,
+          picture: res.data.data.picture,
+          predict: res.data.data.predict
+        })
       } catch (err) {
         message.error(err && err.message || '解析图像失败');
       }
@@ -125,6 +128,7 @@ export default class Region extends React.Component<any, IState> {
             headers={{
               authorization: 'authorization-text'
             }}
+            showUploadList={false}
             name='file'
             beforeUpload={this.beforeUpload}
             onChange={this.onChange}
