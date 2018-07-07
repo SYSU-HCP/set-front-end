@@ -34,6 +34,7 @@ export default class Region extends React.Component<any, IState> {
   }
   public async onChange(info: any) {
     if (info.file.status !== 'uploading' && info.file.status !== 'removed') {
+      const hide = message.loading('请稍等...')
       try {
         const param = new FormData()
         param.append('img', info.file, info.file.name)
@@ -51,6 +52,8 @@ export default class Region extends React.Component<any, IState> {
         })
       } catch (err) {
         message.error(err && err.message || '解析图像失败');
+      } finally {
+        hide()
       }
     }
     if (info.file.status === 'done') {
@@ -196,7 +199,7 @@ export default class Region extends React.Component<any, IState> {
           </div>
         </div>
 
-        <div
+        {picture ? (<div
           style={{
             alignItems: 'flex-start',
             display: 'flex',
@@ -240,9 +243,9 @@ export default class Region extends React.Component<any, IState> {
               {predict}
             </p>
           </div>
-        </div>
+        </div>) : null}
 
-        <div
+        {gampicture ? (<div
           style={{
             alignItems: 'flex-start',
             display: 'flex',
@@ -287,7 +290,7 @@ export default class Region extends React.Component<any, IState> {
               {gampredict}
             </p>
           </div>
-        </div>
+        </div>) : null}
 
         <div
           style={{
