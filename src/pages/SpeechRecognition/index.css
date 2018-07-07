@@ -1,0 +1,15 @@
+.speech-recognition {
+  padding-top: 20px;
+}
+
+.speech-recognition .audios {
+  margin-top: 20px;
+}
+
+.speech-recognition .audio {
+  margin-bottom: 20px;
+}
+
+.speech-recognition .audio audio {
+  width: 100%;
+}
