@@ -77,10 +77,10 @@ export default class MedicalDiagnosis extends React.PureComponent<any, IState> {
 
   public onRemove() {
     this.setState({
+      preImg: null,
       resImgSelected: '',
       resImgs: [],
-      text: '',
-      preImg: null
+      text: ''
     })
     return true
   }
