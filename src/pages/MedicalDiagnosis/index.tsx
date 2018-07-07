@@ -27,6 +27,7 @@ export default class MedicalDiagnosis extends React.PureComponent<any, IState> {
   }
   public async onChange(info: any) {
     if (info.file.status !== 'uploading' && info.file.status !== 'removed') {
+      const hide = message.loading('请稍等...')
       try {
         const param = new FormData()
         param.append('file', info.file, info.file.name)
@@ -41,6 +42,8 @@ export default class MedicalDiagnosis extends React.PureComponent<any, IState> {
         })
       } catch (err) {
         message.error(err && err.message || '解析图像失败');
+      } finally {
+        hide()
       }
     }
     if (info.file.status === 'done') {
