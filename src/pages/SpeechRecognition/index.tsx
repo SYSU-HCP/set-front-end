@@ -84,8 +84,9 @@ export default class SpeechRecognition extends React.PureComponent<{}, IState> {
   private upload = async (audio: IAudio) => {
     this.fakeProgress(true);
     try {
-      const result = await axios.post('/api/voiceRecognition/uploadId', audio.id);
-      this.setState({ uploadState: 1, uploadProgress: 100, result: result.data.toString() });
+      const result = await axios.post('/api/voiceRecognition/uploadId', { id: audio.id });
+      (console as any).log(result);
+      this.setState({ uploadState: 1, uploadProgress: 100, result: result.data.data.join(' ') });
     } catch(e) {
       message.error(e.response.data.msg);
       this.setState({ uploadState: 2, uploadProgress: 100, result: '' });
