@@ -10,6 +10,8 @@ echo "DEPLOY the files"
 docker restart set-dl-client
 docker cp ./deploy/default.conf set-dl-client:/etc/nginx/conf.d/
 docker exec set-dl-client nginx -s reload
+npm install
 npm run build
 cd build
 docker cp . set-dl-client:/usr/share/nginx/html
+echo "DONE"
