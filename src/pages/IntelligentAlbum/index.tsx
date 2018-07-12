@@ -3,45 +3,26 @@ import axios from 'axios';
 import * as React from 'react';
 import './index.css';
 
-export default class IntelligentAlbum extends React.PureComponent {
+interface IState {
+  fileList: any[]
+  images: any[]
+  imagesChecked: boolean[]
+  labels: Array<{
+    name: string
+    imgs: any[]
+  }>
+  previewImage: any
+  previewVisible: boolean
+}
+
+
+export default class IntelligentAlbum extends React.PureComponent<any, IState> {
   public state = {
     fileList: [],
     images: [1, 2, 3, 4 ,5 , 6, 7, 8, 9],
     imagesChecked: [false, false, false, false , false, false, false, false, false],
     imagesSelected: [],
-    labels: [
-      {
-        imgs: [
-          {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_'},
-          {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_'},
-          {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_'},
-          {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_'},
-        ],
-        name: '猫',
-      }, 
-      { 
-        imgs: [
-          {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_'},
-          {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_'},
-          {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_'},
-          {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_'},
-          {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_'},
-          {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_'},
-          {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_'},
-          {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_'},
-        ],
-        name: '狗',
-      }, 
-      {
-        imgs: [
-          {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_'},
-          {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_'},
-          {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_'},
-          {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_'},
-        ],
-        name: '花',
-      },
-    ],
+    labels: [],
     previewImage: '',
     previewVisible: false,
   };
@@ -59,20 +40,59 @@ export default class IntelligentAlbum extends React.PureComponent {
   public beforeUpload = () => {
     return false
   }
+
+  public getImgurl = (file:any) => new Promise((resolve, reject) => {
+    if((window as any).FileReader) {
+      const fr = new FileReader();
+      fr.onloadend = (e:any) => {
+        resolve(e.target.result)
+      }
+      fr.readAsDataURL(file);
+    } else {
+      reject()
+    }
+  })
+
   public handleChange = async (info:any) => {
     if (info.file.status !== 'uploading' && info.file.status !== 'removed') {
       try {
+        const imgUrl = await this.getImgurl(info.file)
         const param = new FormData()
         param.append('img', info.file, info.file.name)
         const config = {
           headers: {'Content-Type': 'multipart/form-data'}
         }
-        await axios.post('/api/recognition/uploadImage', param, config)
+        const res = await axios.post('/api/recognition/uploadImage', param, config)
+        const labels = this.state.labels
+        const resLabels = res.data.data
+        const newLabels = []
+        for (const resLabel of resLabels) {
+          let isExist = false
+          for (const label of labels) {
+            if ((label as any).name === resLabel) {
+              (label as any).imgs.push({ url: imgUrl as any })
+              isExist = true
+              break
+            }
+          }
+          if (!isExist) {
+            newLabels.push({
+              imgs: [],
+              name: resLabel
+            })
+          }
+        }
+
+        this.setState({
+          labels: [...labels, ...newLabels]
+        })
+
         // this.setState({
         //   resImgSelected: res.data.data.heatmapImageUrls.length && res.data.data.heatmapImageUrls[0],
         //   resImgs: res.data.data.heatmapImageUrls,
         //   text: res.data.data.captions
         // })
+
       } catch (err) {
         message.error(err && err.message || '解析图像失败');
       }
@@ -114,7 +134,6 @@ export default class IntelligentAlbum extends React.PureComponent {
           <div className="upload-img--self">
             <p className="upload-img-hint">👇添加一组图片，您可以获得一个根据图片内容分类的智能相册。</p>
             <Upload
-              action="//jsonplaceholder.typicode.com/posts/"
               listType="picture-card"
               fileList={fileList as any[]}
               beforeUpload={this.beforeUpload}
@@ -158,13 +177,13 @@ export default class IntelligentAlbum extends React.PureComponent {
         <div className="labels-container">
           {
             this.state.labels.map((label, idx) => {
-              const { name, imgs=[] } = label;
+              const { name, imgs=[] }:any = label;
               return (
                 <div key={idx}>
                   <span className="label-name">{name}</span>
                   <div className="label-imgs">
                     {
-                      imgs.map((img, index) => {
+                      imgs.map((img:any, index:number) => {
                         return (
                           <img key={index} src={img.url} />
                         )

@@ -1,13 +1,13 @@
 import * as React from 'react';
 
 import { Layout, Menu } from 'antd';
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Link, Redirect, Route, Switch } from 'react-router-dom';
 
 import withMeta from './components/WithMeta';
 
 import routes from './routes';
 
-import Home from './pages/Home';
+// import Home from './pages/Home';
 
 import './App.css';
 
@@ -48,7 +48,7 @@ class App extends React.Component {
         mode="inline"
         defaultSelectedKeys={[location.pathname]}
       >
-        <Menu.Item key="/"><Link to='/'>实训展示平台首页</Link></Menu.Item>
+        {/* <Menu.Item key="/"><Link to='/'>实训展示平台首页</Link></Menu.Item> */}
         { 
           routes.map(
             (route, index) => (
@@ -67,8 +67,16 @@ class App extends React.Component {
   private renderRoutes() {
     return (
       <Switch>
-        <Route exact={true} path='/' component={Home} />
-        { routes.map((route, index) => (<Route path={route.path} key={index} component={withMeta(route.component, route.meta)} />))}
+        <Redirect exact={true} path='/' to={routes[0].path} />
+        { routes.map((route, index) => {
+          return (
+            <Route
+              path={route.path}
+              key={index}
+              component={withMeta(route.component, route.meta)}
+            />
+          )
+        })}
       </Switch>
     );
   }
