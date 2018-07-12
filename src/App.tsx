@@ -48,7 +48,7 @@ class App extends React.Component {
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={[location.pathname]}
+        defaultSelectedKeys={[location.pathname === '/' ? routes[0].path : location.pathname]}
       >
         {/* <Menu.Item key="/"><Link to='/'>实训展示平台首页</Link></Menu.Item> */}
         { 
