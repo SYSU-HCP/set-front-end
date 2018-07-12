@@ -32,7 +32,7 @@ class App extends React.Component {
             {/* <Header className="header" style={{ background: '#fff', padding: '0 40px' }}>
               <h1>实训成果展示平台</h1>
             </Header> */}
-            <Content style={{ margin: '24px 16px 0', display: 'flex', flexDirection: 'column' }}>
+            <Content style={{ margin: '0', display: 'flex', flexDirection: 'column' }}>
               <div style={{ padding: 24, background: '#fff', height: '100%', flexGrow: 1 }}>
                 { this.renderRoutes() }
               </div>

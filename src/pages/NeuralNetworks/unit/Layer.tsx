@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './index.css';
 
-import { Button } from '../../../../node_modules/antd';
+import { Button } from 'antd';
 
 let unitsNumer: any = [64, 128, 256, 512];
 const unitSize = 5;

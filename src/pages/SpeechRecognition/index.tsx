@@ -63,7 +63,7 @@ export default class SpeechRecognition extends React.PureComponent<{}, IState> {
         <Row className="audios" gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
           {
             audios.map((audio, index) => (
-              <Col className="audio" key={index} xs={24} sm={24} md={12} lg={12}>
+              <Col className="audio" key={index} xs={24} sm={24} md={8} lg={8}>
                 <Card title={audio.name}>
                   <audio controls={true} src={audio.source} />
                   <Button disabled={!uploadState} style={{ width: '100%', marginTop: 10 }} onClick={this.upload.bind(this, audio)}>上传</Button>

@@ -19,7 +19,7 @@ export default class VideoPlayerPage extends React.PureComponent {
           id="my-player"
           style={{
             height: '400px',
-            margin: '0 0 20px 0',
+            margin: '0 0 50px 0',
             width: '640px'
           }}
           controls
