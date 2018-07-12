@@ -1,4 +1,4 @@
-import { Button, Modal } from 'antd';
+import { Button, Modal, Upload, message } from 'antd';
 import * as React from 'react'
 import Back from '../../components/Back';
 
@@ -9,13 +9,17 @@ enum Step {
 }
 
 export interface IState {
+  labelList: any[]
+  fileList: any[]
   dialogVisible: boolean
   step: Step
 }
 
 export default class Distribution extends React.Component<any, IState> {
 
-  public state : IState = {
+  public state: IState = {
+    labelList: [],
+    fileList: [],
     dialogVisible: false,
     step: Step.first
   }
@@ -27,6 +31,8 @@ export default class Distribution extends React.Component<any, IState> {
     this.hideHowToUse = this.hideHowToUse.bind(this);
     this.goBack = this.goBack.bind(this);
     this.goNext = this.goNext.bind(this);
+    this.beforeUpload = this.beforeUpload.bind(this);
+    this.beforeLabelUpload = this.beforeLabelUpload.bind(this);
   }
 
   public showHowToUse() {
@@ -63,17 +69,67 @@ export default class Distribution extends React.Component<any, IState> {
         step: Step.second
       })
     } else if (step === Step.second) {
-      this.setState({
-        step: Step.third
-      })
+      // TODO
+      // 向后端获取API返回值保存在state中
+      const hide = message.loading('请稍等...')
+      // 其实没有后端，这里只好假装在请求,5秒后跳转
+      setTimeout(() => {
+        hide()
+        this.setState({
+          step: Step.third
+        })
+      }, 5000)
     }
   }
+
+  public beforeUpload(file: any) {
+    // console.log(file)
+    // console.log(fileList)
+    this.setState(({ fileList }) => ({
+      fileList: [...fileList, file],
+    }));
+    // console.log(this.state.fileList)
+    // wait for upload
+    return false
+  }
+
+  public beforeLabelUpload(file: any, fileList: any[]) {
+    this.setState(({ labelList }) => ({
+      labelList: [...labelList, file],
+    }));
+    // console.log(this.state.labelList)
+    return false
+  }
+
+  // public handleLabelChange = (info: any) => {
+  //   let fileList = info.fileList;
+  //   // 2. read from response and show file link
+  //   fileList = fileList.map((file: any) => {
+  //     if (file.response) {
+  //       // Component will show file.url as link
+  //       file.url = file.response.url;
+  //     }
+  //     return file;
+  //   });
+
+  //   // 3. filter successfully uploaded files according to response from server
+  //   fileList = fileList.filter((file: any) => {
+  //     if (file.response) {
+  //       return file.response.status === 'success';
+  //     }
+  //     return true;
+  //   });
+
+  //   this.setState({ fileList });
+  // }
 
   public render() {
 
     const {
       dialogVisible,
-      step
+      step,
+      fileList,
+      labelList
     } = this.state
 
     return (
@@ -81,8 +137,8 @@ export default class Distribution extends React.Component<any, IState> {
         style={{
           position: 'relative'
         }}
-        >
-        {step !== Step.first && <Back onClick={this.goBack}/>}        
+      >
+        {step !== Step.first && <Back onClick={this.goBack} />}
         <div
           style={{
             alignItems: 'center',
@@ -116,7 +172,7 @@ export default class Distribution extends React.Component<any, IState> {
                   height: '250px',
                   width: '250px'
                 }}
-                >
+              >
                 <img
                   style={{
                     height: '100%',
@@ -157,7 +213,7 @@ export default class Distribution extends React.Component<any, IState> {
         ) : null
         }
         {/* * upload */}
-        { step === Step.second ? (
+        {step === Step.second ? (
           <div
             style={{
               alignItems: 'center',
@@ -166,20 +222,72 @@ export default class Distribution extends React.Component<any, IState> {
               justifyContent: 'center',
               margin: '20px 0 0 0'
             }}>
-            <Button
-              style={{
-                marginBottom: '20px'
+            <Upload
+              multiple={true}
+              headers={{
+                authorization: 'authorization-text'
+              }}
+              fileList={fileList}
+              name='imgs'
+
+              // onChange={this.prepareUploadImages}
+              beforeUpload={this.beforeUpload}
+              onRemove={(file) => {
+                this.setState(({ fileList }) => {
+                  const index = fileList.indexOf(file);
+                  const newFileList = fileList.slice();
+                  newFileList.splice(index, 1);
+                  return {
+                    fileList: newFileList,
+                  };
+                });
+              }}
+            // beforeUpload={this.beforeUpload}
+            // onChange={this.onChange}
+            >
+              <Button
+                style={{
+                  marginBottom: '20px'
+                }}
+              >
+                Upload Photo
+              </Button>
+            </Upload>
+
+            <Upload
+              headers={{
+                authorization: 'authorization-text'
+              }}
+              fileList={labelList}
+              name='label'
+              // onChange={this.prepareUploadImages}
+              beforeUpload={this.beforeLabelUpload}
+              // beforeUpload={this.beforeUpload}
+              onChange={(info) => {
+                // console.log("change")
+                let fileList = info.fileList;
+                fileList = fileList.slice(-1);
+                this.setState({ labelList: fileList });
+              }}
+              onRemove={(file) => {
+                this.setState(({ labelList }) => {
+                  const index = labelList.indexOf(file);
+                  const newLabel = labelList.slice();
+                  newLabel.splice(index, 1);
+                  return {
+                    labelList: newLabel,
+                  };
+                });
               }}
             >
-              Upload Photo
-            </Button>
-            <Button
-              style={{
-                marginBottom: '20px'
-              }}
-            >
-              Upload Label
-            </Button>
+              <Button
+                style={{
+                  marginBottom: '20px'
+                }}
+              >
+                Upload Label
+              </Button>
+            </Upload>
             <Button
               style={{
                 marginBottom: '20px'
@@ -190,7 +298,7 @@ export default class Distribution extends React.Component<any, IState> {
             </Button>
             <a href="javascript:void(0)" onClick={this.showHowToUse}>How to use ？</a>
           </div>
-          ) : null 
+        ) : null
         }
 
         {/* * result*/}
@@ -210,7 +318,7 @@ export default class Distribution extends React.Component<any, IState> {
                   height: '250px',
                   width: '250px'
                 }}
-                >
+              >
                 <img
                   style={{
                     height: '100%',
@@ -238,7 +346,7 @@ export default class Distribution extends React.Component<any, IState> {
                 <p>Visualization Using Digt</p>
               </div>
             </div>
-          </div> 
+          </div>
         ) : null
         }
 
@@ -250,10 +358,10 @@ export default class Distribution extends React.Component<any, IState> {
         >
           <h3>Upload Photo</h3>
           <p>the photo folder should be like this</p>
-          <img src={require('../../assets/imgs/imgs_example.png')} alt=""/>
+          <img src={require('../../assets/imgs/imgs_example.png')} alt="" />
           <h3>Upload Label</h3>
           <p>the label file should be like this</p>
-          <img src={require('../../assets/imgs/label_example.png')} alt=""/>
+          <img src={require('../../assets/imgs/label_example.png')} alt="" />
         </Modal>
       </div>
     );
