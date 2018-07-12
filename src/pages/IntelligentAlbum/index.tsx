@@ -130,8 +130,8 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
     );
     return (
       <React.Fragment>
-        <div className="clearfix">
-          <div className="upload-img--self">
+        <div className="clearfix" style={{padding: '20px 0'}}>
+          <div>
             <p className="upload-img-hint">👇添加一组图片，您可以获得一个根据图片内容分类的智能相册。</p>
             <Upload
               listType="picture-card"
@@ -149,7 +149,7 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
           </Modal>
         </div>
         <div className="upload-img--example">
-          <p className="upload-img-hint">👇添加一组图片，您可以获得一个根据图片内容分类的智能相册。或者使用我们提供一组图片试试（共xx张）。</p>
+          <p className="upload-img-hint">👇或者使用我们提供一组图片试试（共xx张）。</p>
           {/* <Button type="primary">上传示例图片</Button> */}
           <div className="img-list">
             {

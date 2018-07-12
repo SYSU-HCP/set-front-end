@@ -8,7 +8,7 @@ const TabPane = Tabs.TabPane;
 export default class NeuralNetworks extends React.PureComponent {
   public render() {
     return (
-      <Tabs defaultActiveKey="1" className="neural-networks" >
+      <Tabs defaultActiveKey="1" className="neural-networks" style={{ padding: '20px 0' }} >
         <TabPane tab="Region" key="1">
           <Region />
         </TabPane>

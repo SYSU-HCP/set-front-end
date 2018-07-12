@@ -55,8 +55,8 @@ export default class IntelligentAlbum extends React.PureComponent {
     );
     return (
       <React.Fragment>
-        <div className="clearfix">
-          <div className="upload-img--self">
+        <div className="clearfix" style={{ padding: '20px 0' }}>
+          <div>
             <p className="upload-img-hint">👇添加一张衣服的图片，你可以获得一组含有相似衣服的图片。</p>
             <Upload
               action="//jsonplaceholder.typicode.com/posts/"

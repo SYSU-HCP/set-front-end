@@ -59,7 +59,7 @@ export default class SpeechRecognition extends React.PureComponent<{}, IState> {
 
     return (
       <div className="speech-recognition">
-        <h3>👇您可以在我们提供的音频中选择一个进行</h3>
+        <span>👇您可以在我们提供的音频中选择一个进行</span>
         <Row className="audios" gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
           {
             audios.map((audio, index) => (

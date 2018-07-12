@@ -4,20 +4,22 @@ import * as React from 'react';
 
 
 export interface IState {
+  fileList: any[]
   resImgSelected: string
-  resImgs: string[],
-  text: string,
-  preImg: any,
+  resImgs: string[]
+  text: string
+  preImg: any
   exImgSelected?: string
 }
 
 export default class MedicalDiagnosis extends React.PureComponent<any, IState> {
   public state: IState = {
     exImgSelected: '',
+    fileList: [],
     preImg: null,
     resImgSelected: '',
     resImgs: [],
-    text: ''
+    text: '',
   }
   public constructor(props:any) {
     super(props)
@@ -36,9 +38,10 @@ export default class MedicalDiagnosis extends React.PureComponent<any, IState> {
         }
         const res = await axios.post('/api/mir/', param, config)
         this.setState({
+          fileList: [info.file],
           resImgSelected: res.data.data.heatmapImageUrls.length && res.data.data.heatmapImageUrls[0],
           resImgs: res.data.data.heatmapImageUrls,
-          text: res.data.data.captions
+          text: res.data.data.captions,
         })
       } catch (err) {
         message.error(err && err.message || '解析图像失败');
@@ -80,6 +83,7 @@ export default class MedicalDiagnosis extends React.PureComponent<any, IState> {
 
   public onRemove() {
     this.setState({
+      fileList: [],
       preImg: null,
       resImgSelected: '',
       resImgs: [],
@@ -89,19 +93,19 @@ export default class MedicalDiagnosis extends React.PureComponent<any, IState> {
   }
 
   public render() {
-    const { resImgSelected, resImgs, text, preImg } = this.state
+    const { resImgSelected, resImgs, text, preImg, fileList } = this.state
     return (
       <div>
-        <Row type="flex" justify="start" style={{ padding: '20px' }}>
+        <Row type="flex" justify="start" style={{ padding: '20px 0' }}>
           <Col span={12}>
             <Row type="flex" justify="start" align="middle">
               <Col span={20}>
                 {!preImg ? 
                   (
-                    <Card style={{fontSize: 20, textAlign: 'center', lineHeight: '300px', height: '300px'}}>
+                    <Card style={{fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', height: '400px'}}>
                       还没有上传图片
                     </Card>) :
-                  (<img style={{width: '100%', height: '100%'}} src={preImg} alt="" />)
+                  (<img style={{width: '100%', height: '400px'}} src={preImg} alt="" />)
                 }
               </Col>
             </Row>
@@ -112,6 +116,7 @@ export default class MedicalDiagnosis extends React.PureComponent<any, IState> {
                 headers={{
                   authorization: 'authorization-text'
                 }}
+                fileList={fileList}
                 name='file'
                 beforeUpload={this.beforeUpload}
                 onChange={this.onChange}
@@ -122,7 +127,7 @@ export default class MedicalDiagnosis extends React.PureComponent<any, IState> {
                 </Button>
               </Upload>
             </Row>
-            <Row style={{marginTop: '20px'}}>👆添加一张X光图片，您可以获得一张或多张<strong>诊断结果图</strong>, 和相应的<strong>文字诊断图</strong></Row>
+            <Row style={{marginTop: '20px'}}>👆添加一张X光图片，您可以获得一张或多张<strong>诊断结果</strong>, 和相应的<strong>文字诊断</strong></Row>
             {/* <Row style={{margin: '50px 0 10px 0'}}>👇或者从我们提供的图片中挑选一张试试</Row>
             <Row>
             {images.map((item, index) => {
@@ -150,7 +155,7 @@ export default class MedicalDiagnosis extends React.PureComponent<any, IState> {
           <Col span={12}>
             <Row type="flex" justify="start" align="middle">
               <Col span={20}>
-                <img style={{width: '100%', height: '100%'}} src={resImgSelected} alt="" />
+                <img style={{width: '100%', height: '400px'}} src={resImgSelected} alt="" />
               </Col>
             </Row>
             <Row type="flex" justify="start" align="middle" style={{marginTop: '10px'}}>

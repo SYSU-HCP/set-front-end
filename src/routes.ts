@@ -1,3 +1,5 @@
+import GroupSeven from './pages/GroupSeven';
+import GroupTwo from './pages/GroupTwo';
 import IntelligentAlbum from './pages/IntelligentAlbum';
 import LookupClothes from './pages/LookupClothes';
 import MedicalDiagnosis from './pages/MedicalDiagnosis';
@@ -56,7 +58,7 @@ const routes: IRoute[] = [{
   },
   path: '/speech-recognition',
 }, {
-  component: SpeechRecognition,
+  component: GroupSeven,
   meta: {
     TA: '蔡俊浩',
     members: ['杨耿聪','杨立诚','张万康','曹蕊'],
@@ -65,7 +67,7 @@ const routes: IRoute[] = [{
   },
   path: '/group-seven',
 }, {
-  component: SpeechRecognition,
+  component: GroupTwo,
   meta: {
     TA: '胡永恒',
     members: ['何子龙','张应鸿','丘晓峰','黄艺彬','陈思锐'],
