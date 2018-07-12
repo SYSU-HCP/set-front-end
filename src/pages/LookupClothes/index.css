@@ -28,8 +28,8 @@
 }
 
 .upload-img--example .img-list .img-container img {
-  width: 200px;
-  height: 200px;
+  width: 120px;
+  height: 120px;
   margin: 10px;
 }
 
@@ -48,18 +48,15 @@
 }
 
 .label-search-container {
-  margin-left: 20px;
   display: flex;
   align-items: center;
 }
 
 .label-search-container Input {
   width: 30%;
-  margin-right: 20px;
 }
 
 .labels-container {
-  margin-left: 20px;
   margin-top: 20px;
 }
 

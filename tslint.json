@@ -4,7 +4,8 @@
     "exclude": [
       "config/**/*.js",
       "node_modules/**/*.ts",
-      "webhooks/**/*.js"
+      "webhooks/**/*.js",
+      "src/**/*.tsx"
     ]
   }
 }

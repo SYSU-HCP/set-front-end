@@ -122,7 +122,7 @@ export default class Distribution extends React.Component<any, IState> {
                     height: '100%',
                     width: '100%'
                   }}
-                  src={require('../../assets/imgs/banner1.png')}
+                  src={require('../../assets/imgs/banner.png')}
                 />
                 <p>Visualization Using Tsne</p>
               </div>
@@ -139,7 +139,7 @@ export default class Distribution extends React.Component<any, IState> {
                     height: '100%',
                     width: '100%'
                   }}
-                  src={require('../../assets/imgs/banner.png')}
+                  src={require('../../assets/imgs/banner1.png')}
                 />
                 <p>Visualization Using Digt</p>
               </div>

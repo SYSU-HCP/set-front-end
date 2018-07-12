@@ -13,6 +13,7 @@ interface IState {
   }>
   previewImage: any
   previewVisible: boolean
+  searchWord: string
 }
 
 
@@ -25,6 +26,7 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
     labels: [],
     previewImage: '',
     previewVisible: false,
+    searchWord: ''
   };
 
   public handleCancel = () => this.setState({ previewVisible: false })
@@ -36,7 +38,6 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
     });
   }
 
-  // public handleChange = ({ fileList } : { fileList : any } ) => this.setState({ fileList })
   public beforeUpload = () => {
     return false
   }
@@ -53,6 +54,12 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
     }
   })
 
+  public handleInput = (e:any) => {
+    this.setState({
+      searchWord: e.target.value
+    })
+  }
+
   public handleChange = async (info:any) => {
     if (info.file.status !== 'uploading' && info.file.status !== 'removed') {
       try {
@@ -64,7 +71,7 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
         }
         const res = await axios.post('/api/recognition/uploadImage', param, config)
         const labels = this.state.labels
-        const resLabels = res.data.data
+        const resLabels = typeof res.data.data.data === 'string' ? [res.data.data.data] : res.data.data.data
         const newLabels = []
         for (const resLabel of resLabels) {
           let isExist = false
@@ -77,21 +84,16 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
           }
           if (!isExist) {
             newLabels.push({
-              imgs: [],
+              imgs: [{ url: imgUrl }],
               name: resLabel
             })
           }
         }
 
         this.setState({
+          fileList: [info.file],
           labels: [...labels, ...newLabels]
         })
-
-        // this.setState({
-        //   resImgSelected: res.data.data.heatmapImageUrls.length && res.data.data.heatmapImageUrls[0],
-        //   resImgs: res.data.data.heatmapImageUrls,
-        //   text: res.data.data.captions
-        // })
 
       } catch (err) {
         message.error(err && err.message || '解析图像失败');
@@ -150,7 +152,6 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
         </div>
         <div className="upload-img--example">
           <p className="upload-img-hint">👇或者使用我们提供一组图片试试（共xx张）。</p>
-          {/* <Button type="primary">上传示例图片</Button> */}
           <div className="img-list">
             {
               this.state.images.map((img, index) => {
@@ -171,12 +172,12 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
           </div>
         </div>
         <div className="label-search-container">
-          <Input className="label-search" placeholder="请输入标签" />
+          <Input className="label-search" placeholder="请输入标签" onInput={this.handleInput} />
           <span>👈可以直接搜索分类标签</span>
         </div>
         <div className="labels-container">
           {
-            this.state.labels.map((label, idx) => {
+            this.state.labels.filter(label => (label as string).indexOf(this.state.searchWord) !== -1).map((label, idx) => {
               const { name, imgs=[] }:any = label;
               return (
                 <div key={idx}>

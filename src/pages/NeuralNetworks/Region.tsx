@@ -103,6 +103,7 @@ export default class Region extends React.Component<any, IState> {
 
   public render() {
     const { campicture, gamcampicture, gampicture, gampredict, picture, predict } = this.state
+    const { goNext } = this.props
 
     return (
       <div>
@@ -161,42 +162,107 @@ export default class Region extends React.Component<any, IState> {
           <div
             style={{
               display: 'flex',
-              flex: 4
+              flex: 4,
+              flexWrap: 'wrap'
             }}>
-            <div
-              style={{
-                borderRight: '1px dashed #ddd',
-                padding: '0 20px 0 0',
-                textAlign: 'center'
-              }}>
-              <p>Original</p>
-              <img
-                style={{
-                  height: '200px',
-                  width: '200px'
-                }}
-                src={require('../../assets/imgs/banner.png')} />
+              <div style={{ display: 'flex', margin: '0 20px 20px 0' }}>
+                <div
+                  style={{
+                    borderRight: '1px dashed #ddd',
+                    padding: '0 20px 0 0',
+                    textAlign: 'center'
+                  }}>
+                  <p>Original</p>
+                  <img
+                    style={{
+                      height: '150px',
+                      width: '150px'
+                    }}
+                    src={require('../../assets/imgs/picture1.jpeg')} />
+                </div>
+                <div
+                  style={{
+                    padding: '0 0 0 20px',
+                    textAlign: 'center'
+                  }}>
+                  <p>
+                    <span>Adversarial</span>
+                    <Tooltip
+                      title="Process the original picture with some noise then we get the adversarial sample. People can't distinguish them with naked eyes, but it can cause the fail of the classfier.">
+                      <Icon type="question-circle" />
+                    </Tooltip>
+                  </p>
+                  <img
+                    style={{
+                      height: '150px',
+                      width: '150px'
+                    }}
+                    src={require('../../assets/imgs/campicture1.jpeg')} />
+                </div>
+              </div>
+              <div style={{ display: 'flex', margin: '0 20px 20px 0' }}>
+                <div
+                  style={{
+                    borderRight: '1px dashed #ddd',
+                    padding: '0 20px 0 0',
+                    textAlign: 'center'
+                  }}>
+                  <p>Original</p>
+                  <img
+                    style={{
+                      height: '150px',
+                      width: '150px'
+                    }}
+                    src={require('../../assets/imgs/picture2.jpeg')} />
+                </div>
+                <div
+                  style={{
+                    padding: '0 0 0 20px',
+                    textAlign: 'center'
+                  }}>
+                  <p>
+                    <span>Adversarial</span>
+                  </p>
+                  <img
+                    style={{
+                      height: '150px',
+                      width: '150px'
+                    }}
+                    src={require('../../assets/imgs/campicture2.jpeg')} />
+                </div>
+              </div>
+              <div style={{ display: 'flex', margin: '0 20px 20px 0' }}>
+                <div
+                  style={{
+                    borderRight: '1px dashed #ddd',
+                    padding: '0 20px 0 0',
+                    textAlign: 'center'
+                  }}>
+                  <p>Original</p>
+                  <img
+                    style={{
+                      height: '150px',
+                      width: '150px'
+                    }}
+                    src={require('../../assets/imgs/picture3.jpeg')} />
+                </div>
+                <div
+                  style={{
+                    padding: '0 0 0 20px',
+                    textAlign: 'center'
+                  }}>
+                  <p>
+                    <span>Adversarial</span>
+                  </p>
+                  <img
+                    style={{
+                      height: '150px',
+                      width: '150px'
+                    }}
+                    src={require('../../assets/imgs/campicture3.jpeg')} />
+                </div>
+              </div>
             </div>
-            <div
-              style={{
-                padding: '0 0 0 20px',
-                textAlign: 'center'
-              }}>
-              <p>
-                <span>Adversarial</span>
-                <Tooltip
-                  title="Process the original picture with some noise then we get the adversarial sample. People can't distinguish them with naked eyes, but it can cause the fail of the classfier.">
-                  <Icon type="question-circle" />
-                </Tooltip>
-              </p>
-              <img
-                style={{
-                  height: '200px',
-                  width: '200px'
-                }}
-                src={require('../../assets/imgs/banner.png')} />
-            </div>
-          </div>
         </div>
 
         {picture ? (<div
@@ -297,7 +363,7 @@ export default class Region extends React.Component<any, IState> {
             margin: '30px 0 0 0',
             textAlign: 'center'
         }}>
-          <a>more explanation about this net</a>
+          <a onClick={goNext}>more explanation about this net</a>
         </div>
       </div>
     )
