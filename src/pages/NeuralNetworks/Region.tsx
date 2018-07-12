@@ -87,18 +87,23 @@ export default class Region extends React.Component<any, IState> {
   }
 
   public async onSearch(value: string) {
-    const param = {
-      imageUrl: value
+    const hide = message.loading('请稍等...') 
+    try {
+      const param = {
+        imageUrl: value
+      }
+      const res = await axios.post('/api/visualize/urlDetection', param)
+      this.setState({
+        campicture: res.data.data.campicture,
+        gamcampicture: res.data.data.gamcampicture,
+        gampicture: res.data.data.gampicture,
+        gampredict: res.data.data.gampredict,
+        picture: res.data.data.picture,
+        predict: res.data.data.predict
+      })
+    } finally {
+      hide()
     }
-    const res = await axios.post('/api/visualize/urlDetection', param)
-    this.setState({
-      campicture: res.data.data.campicture,
-      gamcampicture: res.data.data.gamcampicture,
-      gampicture: res.data.data.gampicture,
-      gampredict: res.data.data.gampredict,
-      picture: res.data.data.picture,
-      predict: res.data.data.predict
-    })
   }
 
   public render() {
@@ -165,7 +170,7 @@ export default class Region extends React.Component<any, IState> {
               flex: 4,
               flexWrap: 'wrap'
             }}>
-              <div style={{ display: 'flex', margin: '0 20px 20px 0' }}>
+              <div onClick={() => this.onSearch('https://wx4.sinaimg.cn/mw690/a0b59701ly1ft7go3jb0bj20dw0dw77t.jpg')} style={{ display: 'flex', margin: '0 20px 20px 0' }}>
                 <div
                   style={{
                     borderRight: '1px dashed #ddd',
@@ -200,7 +205,7 @@ export default class Region extends React.Component<any, IState> {
                     src={require('../../assets/imgs/campicture1.jpeg')} />
                 </div>
               </div>
-              <div style={{ display: 'flex', margin: '0 20px 20px 0' }}>
+              <div onClick={() => this.onSearch('https://wx2.sinaimg.cn/mw690/a0b59701ly1ft7go3k7cmj20dw0dwgpg.jpg')} style={{ display: 'flex', margin: '0 20px 20px 0' }}>
                 <div
                   style={{
                     borderRight: '1px dashed #ddd',
@@ -231,7 +236,7 @@ export default class Region extends React.Component<any, IState> {
                     src={require('../../assets/imgs/campicture2.jpeg')} />
                 </div>
               </div>
-              <div style={{ display: 'flex', margin: '0 20px 20px 0' }}>
+              <div onClick={() => this.onSearch('https://wx2.sinaimg.cn/mw690/a0b59701ly1ft7go3lepdj20dw0dwtd2.jpg')} style={{ display: 'flex', margin: '0 20px 20px 0' }}>
                 <div
                   style={{
                     borderRight: '1px dashed #ddd',

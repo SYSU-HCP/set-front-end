@@ -179,7 +179,7 @@ export default class MedicalDiagnosis extends React.PureComponent<any, IState> {
             </Row>
           </Col>
           <Col span={12}>
-            <h3>诊断报告</h3>
+            <h3>影像报告</h3>
             <p style={{fontSize: '18px'}}>{text}</p>
           </Col>
         </Row>
