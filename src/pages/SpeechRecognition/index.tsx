@@ -18,20 +18,24 @@ type IState = Readonly<{
 const initialState: IState = {
   audios: [{
     id: 1,
-    name: '测试',
-    source: 'http://fjdx.sc.chinaz.com/Files/DownLoad/sound1/201807/10310.mp3'
+    name: 'sheila left marvin house',
+    source: require('../../assets/voice/id_1-sheila left marvin house.mp3')
   }, {
     id: 2,
-    name: '测试',
-    source: 'http://fjdx.sc.chinaz.com/Files/DownLoad/sound1/201807/10310.mp3'
+    name: 'nine bird on the tree',
+    source: require('../../assets/voice/id_2-nine bird on the tree.mp3')
   }, {
     id: 3,
-    name: '测试',
-    source: 'http://fjdx.sc.chinaz.com/Files/DownLoad/sound1/201807/10310.mp3'
+    name: 'stop dog up on house',
+    source: require('../../assets/voice/id_3-stop dog up on house.wav')
   }, {
     id: 4,
-    name: '测试',
-    source: 'http://fjdx.sc.chinaz.com/Files/DownLoad/sound1/201807/10310.mp3'
+    name: 'six tree on right side of house',
+    source: require('../../assets/voice/id_4-six tree on right side of house.wav')
+  },{
+    id: 5,
+    name: 'one two three four five',
+    source: require('../../assets/voice/id_5-one two three four five.wav')
   } ],
   result: '',
   uploadProgress: 0,
