@@ -74,7 +74,7 @@ export default class IntelligentAlbum extends React.PureComponent {
           </Modal>
         </div>
         <div className="upload-img--example">
-          <p className="upload-img-hint">👇添加一张衣服的图片，你可以获得一组含有相似衣服的图片，您可以获得一组。或者使用我们提供的图片试试（共xx张）。</p>
+          <p className="upload-img-hint">👇或者使用我们提供的图片试试（共xx张）。</p>
           <Button type="primary">上传示例图片</Button>
           <div className="img-list">
             {
