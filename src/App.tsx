@@ -11,7 +11,7 @@ import routes from './routes';
 
 import './App.css';
 
-const { Header, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 
 class App extends React.Component {
   public render() {
@@ -23,13 +23,15 @@ class App extends React.Component {
             collapsedWidth="0"
             width={160}
           >
-            <div className="logo" />
+            <div className="logo">
+              2018年<br/>实训效果展示平台
+            </div>
             { this.renderMenu() }
           </Sider>
           <Layout>
-            <Header className="header" style={{ background: '#fff', padding: '0 40px' }}>
+            {/* <Header className="header" style={{ background: '#fff', padding: '0 40px' }}>
               <h1>实训成果展示平台</h1>
-            </Header>
+            </Header> */}
             <Content style={{ margin: '24px 16px 0', display: 'flex', flexDirection: 'column' }}>
               <div style={{ padding: 24, background: '#fff', height: '100%', flexGrow: 1 }}>
                 { this.renderRoutes() }

@@ -122,7 +122,7 @@ export default class MedicalDiagnosis extends React.PureComponent<any, IState> {
                 </Button>
               </Upload>
             </Row>
-            <Row style={{marginTop: '20px'}}>👆添加一张X光图片，您可以获得一张或多张<em>诊断结果图</em>, 和相应的<em>文字诊断图</em></Row>
+            <Row style={{marginTop: '20px'}}>👆添加一张X光图片，您可以获得一张或多张<strong>诊断结果图</strong>, 和相应的<strong>文字诊断图</strong></Row>
             {/* <Row style={{margin: '50px 0 10px 0'}}>👇或者从我们提供的图片中挑选一张试试</Row>
             <Row>
             {images.map((item, index) => {
