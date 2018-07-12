@@ -17,8 +17,8 @@ const routes: IRoute[] = [{
   meta: {
     TA: '黄殷雅',
     members: ['侯培中', '张园园', '张漫榕', '庞景龙', '王宇翔', '颜泽鑫'],
-    name: '医疗诊断',
-    title: '医疗诊断'
+    name: '影像报告',
+    title: '影像报告生成'
   },
   path: '/medical-diagnosis',
 }, {
