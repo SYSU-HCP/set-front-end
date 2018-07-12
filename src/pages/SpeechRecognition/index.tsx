@@ -36,6 +36,10 @@ const initialState: IState = {
     id: 5,
     name: 'one two three four five',
     source: require('../../assets/voice/id_5-one two three four five.wav')
+  },{
+    id: 6,
+    name: 'six bird stop on the right',
+    source: require('../../assets/voice/id_6-six bird stop on the right.wav')
   } ],
   result: '',
   uploadProgress: 0,
