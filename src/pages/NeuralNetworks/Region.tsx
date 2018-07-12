@@ -170,7 +170,7 @@ export default class Region extends React.Component<any, IState> {
               flex: 4,
               flexWrap: 'wrap'
             }}>
-              <div onClick={() => this.onSearch('https://wx4.sinaimg.cn/mw690/a0b59701ly1ft7go3jb0bj20dw0dw77t.jpg')} style={{ display: 'flex', margin: '0 20px 20px 0' }}>
+              <div onClick={() => this.onSearch('http://okuww23ih.bkt.clouddn.com/picture1.jpeg')} style={{ display: 'flex', margin: '0 20px 20px 0' }}>
                 <div
                   style={{
                     borderRight: '1px dashed #ddd',
@@ -205,7 +205,7 @@ export default class Region extends React.Component<any, IState> {
                     src={require('../../assets/imgs/campicture1.jpeg')} />
                 </div>
               </div>
-              <div onClick={() => this.onSearch('https://wx2.sinaimg.cn/mw690/a0b59701ly1ft7go3k7cmj20dw0dwgpg.jpg')} style={{ display: 'flex', margin: '0 20px 20px 0' }}>
+              <div onClick={() => this.onSearch('http://okuww23ih.bkt.clouddn.com/picture2.jpeg')} style={{ display: 'flex', margin: '0 20px 20px 0' }}>
                 <div
                   style={{
                     borderRight: '1px dashed #ddd',
@@ -236,7 +236,7 @@ export default class Region extends React.Component<any, IState> {
                     src={require('../../assets/imgs/campicture2.jpeg')} />
                 </div>
               </div>
-              <div onClick={() => this.onSearch('https://wx2.sinaimg.cn/mw690/a0b59701ly1ft7go3lepdj20dw0dwtd2.jpg')} style={{ display: 'flex', margin: '0 20px 20px 0' }}>
+              <div onClick={() => this.onSearch('http://okuww23ih.bkt.clouddn.com/picture3.jpeg')} style={{ display: 'flex', margin: '0 20px 20px 0' }}>
                 <div
                   style={{
                     borderRight: '1px dashed #ddd',
