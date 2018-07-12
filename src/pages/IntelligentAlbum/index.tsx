@@ -14,6 +14,7 @@ interface IState {
   previewImage: any
   previewVisible: boolean
   searchWord: string
+  resLabels: string[]
 }
 
 
@@ -26,7 +27,8 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
     labels: [],
     previewImage: '',
     previewVisible: false,
-    searchWord: ''
+    searchWord: '',
+    resLabels: []
   };
 
   public handleCancel = () => this.setState({ previewVisible: false })
@@ -62,6 +64,7 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
 
   public handleChange = async (info:any) => {
     if (info.file.status !== 'uploading' && info.file.status !== 'removed') {
+      const hide = message.loading('请稍等...')
       try {
         const imgUrl = await this.getImgurl(info.file)
         const param = new FormData()
@@ -91,23 +94,36 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
         }
 
         this.setState({
-          fileList: [info.file],
-          labels: [...labels, ...newLabels]
+          fileList: [{
+            uid: -1,
+            name: info.file.name,
+            status: 'done',
+            url: imgUrl
+          }],
+          labels: [...labels, ...newLabels],
+          resLabels
         })
 
       } catch (err) {
         message.error(err && err.message || '解析图像失败');
+      } finally {
+        hide()
       }
     }
     if (info.file.status === 'done') {
       message.success(`${info.file.name} file uploaded successfully`);
     } else if (info.file.status === 'error') {
       message.error(`${info.file.name} file upload failed.`);
-    }   
+    } else if (info.file.status === 'removed') {
+      this.setState({
+        fileList: []
+      })
+    }  
   }
 
   public selectImg = (index : number) => {
-    const imagesChecked = this.state.imagesChecked;
+    let imagesChecked = this.state.imagesChecked;
+    imagesChecked = imagesChecked.map(() => false)
     imagesChecked[index] = true;
     this.setState({
       imagesChecked: [...imagesChecked]
@@ -123,7 +139,7 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
   }
 
   public render() {
-    const { previewVisible, previewImage, fileList } = this.state;
+    const { previewVisible, previewImage, fileList, resLabels } = this.state;
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -146,11 +162,15 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
               {uploadButton}
             </Upload>
           </div>
+          <div style={{ margin: '20px 0' }}>
+            <span>👇分类结果</span>
+            <p style={{ margin: '10px 0 0 10px' }}>{resLabels.length ? resLabels.join(', ') : '暂无结果'}</p>
+          </div>
           <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
             <img alt="example" style={{ width: '100%' }} src={previewImage} />
           </Modal>
         </div>
-        <div className="upload-img--example">
+        {/* <div className="upload-img--example">
           <p className="upload-img-hint">👇或者使用我们提供一组图片试试（共xx张）。</p>
           <div className="img-list">
             {
@@ -170,14 +190,14 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
               })
             }
           </div>
-        </div>
+        </div> */}
         <div className="label-search-container">
           <Input className="label-search" placeholder="请输入标签" onInput={this.handleInput} />
           <span>👈可以直接搜索分类标签</span>
         </div>
         <div className="labels-container">
           {
-            this.state.labels.filter(label => (label as string).indexOf(this.state.searchWord) !== -1).map((label, idx) => {
+            this.state.labels.filter(label => (label as any).name.indexOf(this.state.searchWord) !== -1).map((label, idx) => {
               const { name, imgs=[] }:any = label;
               return (
                 <div key={idx}>

@@ -62,18 +62,17 @@
 
 .result-clothes-imgs {
   display: flex;
-  flex-wrap: nowrap;
-  overflow-x: scroll;
+  flex-wrap: wrap;
 }
 
 .result-clothes-imgs img {
   width: 200px;
   height: 200px;
-  margin: 10px;
+  margin: 10px 10px 10px 0;
 }
 
 .result-clothes-container {
-  margin-left: 20px;
+  margin: 20px 0 20px 0
 }
 
 .result-clothes-title {
