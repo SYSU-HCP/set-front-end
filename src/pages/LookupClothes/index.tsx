@@ -6,8 +6,8 @@ import './index.css';
 export default class IntelligentAlbum extends React.PureComponent {
   public state = {
     fileList: [],
-    images: [1, 2, 3, 4 ,5 , 6, 7, 8, 9],
-    imagesChecked: [false, false, false, false , false, false, false, false, false],
+    images: [1, 2, 3, 4, 5, 6],
+    imagesChecked: [false, false, false, false, false, false],
     imagesSelected: [],
     previewImage: '',
     previewVisible: false,
@@ -16,17 +16,17 @@ export default class IntelligentAlbum extends React.PureComponent {
 
   public handleCancel = () => this.setState({ previewVisible: false })
 
-  public handlePreview = (file : any) => {
+  public handlePreview = (file: any) => {
     this.setState({
       previewImage: file.url || file.thumbUrl,
       previewVisible: true,
     });
   }
 
-  public getImgurl = (file:any) => new Promise((resolve, reject) => {
-    if((window as any).FileReader) {
+  public getImgurl = (file: any) => new Promise((resolve, reject) => {
+    if ((window as any).FileReader) {
       const fr = new FileReader();
-      fr.onloadend = (e:any) => {
+      fr.onloadend = (e: any) => {
         resolve(e.target.result)
       }
       fr.readAsDataURL(file);
@@ -35,7 +35,7 @@ export default class IntelligentAlbum extends React.PureComponent {
     }
   })
 
-  public handleChange = async (info:any) => {
+  public handleChange = async (info: any) => {
     if (info.file.status !== 'uploading' && info.file.status !== 'removed') {
       const hide = message.loading('请稍等...')
       try {
@@ -43,10 +43,10 @@ export default class IntelligentAlbum extends React.PureComponent {
         const param = new FormData()
         param.append('img', info.file, info.file.name)
         const config = {
-          headers: {'Content-Type': 'multipart/form-data'}
+          headers: { 'Content-Type': 'multipart/form-data' }
         }
         const res = await axios.post('/api/detection/classification', param, config)
-
+        message.success('成功找到相似衣服的图片')
         this.setState({
           fileList: [{
             uid: -1,
@@ -58,7 +58,10 @@ export default class IntelligentAlbum extends React.PureComponent {
         })
 
       } catch (err) {
-        message.error(err && err.message || '解析图像失败');
+        message.error('未找到任何相似图片');
+        this.setState({
+          resultClothesImages: []
+        })
       } finally {
         hide()
       }
@@ -74,16 +77,41 @@ export default class IntelligentAlbum extends React.PureComponent {
       })
     }
   }
-  
-  public selectImg = (index : number) => {
+
+  public handleSample = async (imgName: any) => {
+    const hide = message.loading('请稍等...')
+    try {
+      const param = {
+        img: imgName
+      }
+      const res = await axios.post('/api/detection/classificationUrl', param)
+      message.success('成功找到相似衣服的图片')
+      this.setState({
+        resultClothesImages: res.data.data.images.map((image: string) => ({ url: image }))
+      })
+    } catch (err) {
+      message.error('未找到任何相似图片');
+      this.setState({
+        resultClothesImages: []
+      })
+    } finally {
+      hide()
+    }
+  }
+
+  public selectImg = async (index: number) => {
     const imagesChecked = this.state.imagesChecked;
+    for (var i in imagesChecked) {
+      imagesChecked[i] = false;
+    }
     imagesChecked[index] = true;
+    await this.handleSample(("cloth_"+index+".jpg"))
     this.setState({
       imagesChecked: [...imagesChecked]
     });
   }
 
-  public removeImg = (index : number) => {
+  public removeImg = (index: number) => {
     const imagesChecked = this.state.imagesChecked;
     imagesChecked[index] = false;
     this.setState({
@@ -124,38 +152,38 @@ export default class IntelligentAlbum extends React.PureComponent {
             <img alt="example" style={{ width: '100%' }} src={previewImage} />
           </Modal>
         </div>
-        {/* <div className="upload-img--example">
-          <p className="upload-img-hint">👇或者使用我们提供的图片试试（共xx张）。</p>
+        <div className="upload-img--example">
+          <p className="upload-img-hint">👇或者使用我们提供的图片试试（共6张）。</p>
           <div className="img-list">
             {
               this.state.images.map((img, index) => {
                 return (
                   <div key={index} className="img-container">
                     <img onClick={this.selectImg.bind(this, index)}
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_" />
-                      {
-                        this.state.imagesChecked[index] ? 
+                      src={require("../../assets/imgs/clothes/cloth_" + index + ".jpg")} />
+                    {
+                      this.state.imagesChecked[index] ?
                         (<div className="img-mask" onClick={this.removeImg.bind(this, index)}>
                           <Icon type="check" />
                         </div>) : null
-                      }
+                    }
                   </div>
                 );
               })
             }
           </div>
-        </div> */}
+        </div>
         {this.state.resultClothesImages.length ?
-        (<div className="result-clothes-container">
-          <span className="result-clothes-title">查找到的衣服图片</span>
-          <div className="result-clothes-imgs">
-            {
-              this.state.resultClothesImages.map((img:any, index) => {
-                return (<img key={index} src={img.url} />)
-              })
-            }
-          </div>
-        </div>) : null}
+          (<div className="result-clothes-container">
+            <span className="result-clothes-title">查找到的衣服图片</span>
+            <div className="result-clothes-imgs">
+              {
+                this.state.resultClothesImages.map((img: any, index) => {
+                  return (<img key={index} src={img.url} />)
+                })
+              }
+            </div>
+          </div>) : null}
       </React.Fragment>
     );
   }
