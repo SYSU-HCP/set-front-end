@@ -197,7 +197,7 @@ export default class Distribution extends React.Component<any, IState> {
                   }}
                   src={require('../../assets/imgs/banner1.png')}
                 />
-                <p>Visualization Using Digt</p>
+                <p>Visualization Using Network Embedding</p>
               </div>
             </div>
             <div
