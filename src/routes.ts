@@ -25,7 +25,7 @@ const routes: IRoute[] = [{
   component: NeuralNetworks,
   meta: {
     TA: '许瑞嘉',
-    members: ['叶佳全',' 林润清', '莫华坤', '周林', '杜一柯'],
+    members: ['叶佳全', '莫华坤', '周林', '杜一柯'],
     name: '神经网络',
     title: '神经网络'
   },
