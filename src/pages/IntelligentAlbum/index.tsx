@@ -21,7 +21,18 @@ interface IState {
 export default class IntelligentAlbum extends React.PureComponent<any, IState> {
   public state = {
     fileList: [],
-    images: [1, 2, 3, 4 ,5 , 6, 7, 8, 9],
+    images: [
+      '000000027909.jpg',
+      '000000039678.jpg',
+      '000000039957.jpg',
+      '000000049822.jpg',
+      '000000088898.jpg',
+      '000000116641.jpg',
+      '000000163865.jpg',
+      '000000195871.jpg',
+      '000000278122.jpg',
+      '000000278826.jpg'
+    ],
     imagesChecked: [false, false, false, false , false, false, false, false, false],
     imagesSelected: [],
     labels: [],
@@ -121,13 +132,52 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
     }  
   }
 
-  public selectImg = (index : number) => {
+  public selectImg = async (index : number) => {
     let imagesChecked = this.state.imagesChecked;
     imagesChecked = imagesChecked.map(() => false)
     imagesChecked[index] = true;
     this.setState({
       imagesChecked: [...imagesChecked]
     });
+
+    const hide = message.loading('请稍等...')
+    const img = this.state.images[index]
+    const imgUrl = require(`../../assets/imgs/gourp4/${img}`)
+    try {
+      const res = await axios.post('/api/recognition/uploadImageUrl', { img })
+      const labels = this.state.labels
+      const resLabels = typeof res.data.data.data === 'string' ? [res.data.data.data] : res.data.data.data
+      const newLabels = []
+      for (const resLabel of resLabels) {
+        let isExist = false
+        for (const label of labels) {
+          if ((label as any).name === resLabel) {
+            (label as any).imgs.push({ url: imgUrl as any })
+            isExist = true
+            break
+          }
+        }
+        if (!isExist) {
+          newLabels.push({
+            imgs: [{ url: imgUrl }],
+            name: resLabel
+          })
+        }
+      }
+
+      this.setState({
+        fileList: [{
+          uid: -1,
+          name: img,
+          status: 'done',
+          url: imgUrl
+        }],
+        labels: [...labels, ...newLabels],
+        resLabels
+      })     
+    } finally {
+      hide()
+    }
   }
 
   public removeImg = (index : number) => {
@@ -170,7 +220,7 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
             <img alt="example" style={{ width: '100%' }} src={previewImage} />
           </Modal>
         </div>
-        {/* <div className="upload-img--example">
+        <div className="upload-img--example">
           <p className="upload-img-hint">👇或者使用我们提供一组图片试试（共xx张）。</p>
           <div className="img-list">
             {
@@ -178,7 +228,7 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
                 return (
                   <div key={index} className="img-container">
                     <img onClick={this.selectImg.bind(this, index)}
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM_AKNXc2X-Ev2KL382lPEjBvlXdIaigO6CiolLiDniOz0b5u_" />
+                      src={require(`../../assets/imgs/gourp4/${img}`)} />
                       {
                         this.state.imagesChecked[index] ? 
                         (<div className="img-mask" onClick={this.removeImg.bind(this, index)}>
@@ -190,7 +240,7 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
               })
             }
           </div>
-        </div> */}
+        </div>
         <div className="label-search-container">
           <Input className="label-search" placeholder="请输入标签" onInput={this.handleInput} />
           <span>👈可以直接搜索分类标签</span>

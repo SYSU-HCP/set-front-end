@@ -50,6 +50,7 @@
 .label-search-container {
   display: flex;
   align-items: center;
+  margin: 20px 0 0 0;
 }
 
 .label-search-container Input {
