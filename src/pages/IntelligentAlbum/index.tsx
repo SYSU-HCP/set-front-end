@@ -7,6 +7,7 @@ interface IState {
   fileList: any[]
   images: any[]
   imagesChecked: boolean[]
+  imagesDisabled: boolean[]
   labels: Array<{
     name: string
     imgs: any[]
@@ -33,7 +34,8 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
       '000000278122.jpg',
       '000000278826.jpg'
     ],
-    imagesChecked: [false, false, false, false , false, false, false, false, false],
+    imagesChecked: [false, false, false, false , false, false, false, false, false, false],
+    imagesDisabled: [false, false, false, false , false, false, false, false, false, false],
     imagesSelected: [],
     labels: [],
     previewImage: '',
@@ -133,11 +135,16 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
   }
 
   public selectImg = async (index : number) => {
+    const disbaled = this.state.imagesDisabled[index]
+    if (disbaled) return
+    let imagesDisabled = this.state.imagesDisabled
+    imagesDisabled[index] = true
     let imagesChecked = this.state.imagesChecked;
     imagesChecked = imagesChecked.map(() => false)
     imagesChecked[index] = true;
     this.setState({
-      imagesChecked: [...imagesChecked]
+      imagesChecked: [...imagesChecked],
+      imagesDisabled
     });
 
     const hide = message.loading('请稍等...')
