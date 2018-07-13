@@ -13,9 +13,12 @@ type IState = Readonly<{
   uploadProgress: number;
   uploadState: 0 | 1 | 2;
   result: string;
-}>
+}> & {
+  isShow: boolean
+}
 
 const initialState: IState = {
+  isShow: false,
   audios: [{
     id: 1,
     name: 'sheila left marvin house',
@@ -50,7 +53,7 @@ export default class SpeechRecognition extends React.PureComponent<{}, IState> {
   public state: IState = initialState;
 
   public render() {
-    const { audios, uploadState, uploadProgress, result } = this.state;
+    const { audios, uploadState, uploadProgress, result, isShow } = this.state;
     let status: "success" | "active" | "exception" | undefined;
 
     if (uploadState === 0) {
@@ -76,10 +79,10 @@ export default class SpeechRecognition extends React.PureComponent<{}, IState> {
             ))
           }
         </Row>
-        <Progress percent={uploadProgress} status={status} />
+        { isShow && (<Progress percent={uploadProgress} status={status} />)}
         { 
           result ? (
-            <div style={{ marginTop: '20px', fontSize: '16px' }}>
+            <div style={{ marginTop: '20px', fontSize: '18px' }}>
               <h3>结果如下</h3>
               <span>{ result }</span>
             </div>
@@ -90,6 +93,9 @@ export default class SpeechRecognition extends React.PureComponent<{}, IState> {
   }
 
   private upload = async (audio: IAudio) => {
+    this.setState({
+      isShow: true
+    })
     this.fakeProgress(true);
     try {
       const result = await axios.post('/api/voiceRecognition/uploadId', { id: audio.id });

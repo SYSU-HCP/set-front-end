@@ -6,14 +6,14 @@ import videojs from 'video.js';
 export default class VideoPlayerPage extends React.PureComponent {
 
   componentDidMount() {
-    videojs(document.getElementById('my-player'))
-    videojs(document.getElementById('my-player2'))
+    // videojs(document.getElementById('my-player'))
+    // videojs(document.getElementById('my-player2'))
   }
 
   render() {
     return (
       <div style={{ padding: '20px 0' }}>
-        <strong>使用随机抓取的策略进行试错抓取，采集数据</strong>
+        {/* <strong>使用随机抓取的策略进行试错抓取，采集数据</strong>
         <video
           className="video-js"
           id="my-player"
@@ -23,12 +23,12 @@ export default class VideoPlayerPage extends React.PureComponent {
           }}
           controls
           preload="auto"
-          // poster="//vjs.zencdn.net/v/oceans.png"
+          poster="//vjs.zencdn.net/v/oceans.png"
           data-setup='{}'>
-        <source src={require('../../assets/videos/group-7/1.mp4')} type="video/mp4"></source>
+        <source src={require('../../assets/videos/group-7/1.mp4')} type="video/mp4"></source> */}
         {/* <source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm"></source> */}
         {/* <source src="//vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source> */}
-        <p className="vjs-no-js">
+        {/* <p className="vjs-no-js">
           To view this video please enable JavaScript, and consider upgrading to a
           web browser that
           <a href="http://videojs.com/html5-video-support/" target="_blank">
@@ -46,19 +46,19 @@ export default class VideoPlayerPage extends React.PureComponent {
             width: '640px'
           }}
           preload="auto"
-          // poster="//vjs.zencdn.net/v/oceans.png"
-          data-setup='{}'>
-        <source src={require('../../assets/videos/group-7/2.mp4')} type="video/mp4"></source>
+          poster="//vjs.zencdn.net/v/oceans.png"
+          data-setup='{}'> */}
+        {/* <source src={require('../../assets/videos/group-7/2.mp4')} type="video/mp4"></source> */}
         {/* <source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm"></source> */}
         {/* <source src="//vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source> */}
-        <p className="vjs-no-js">
+        {/* <p className="vjs-no-js">
           To view this video please enable JavaScript, and consider upgrading to a
           web browser that
           <a href="http://videojs.com/html5-video-support/" target="_blank">
             supports HTML5 video
           </a>
         </p>
-      </video>
+      </video> */}
       </div>
     )
   }
