@@ -71,14 +71,14 @@ export default class Distribution extends React.Component<any, IState> {
     } else if (step === Step.second) {
       // TODO
       // 向后端获取API返回值保存在state中
-      const hide = message.loading('请稍等...')
+      const hide = message.loading('请稍等...',15)
       // 其实没有后端，这里只好假装在请求,5秒后跳转
       setTimeout(() => {
         hide()
         this.setState({
           step: Step.third
         })
-      }, 5000)
+      }, 15000)
     }
   }
 
@@ -324,7 +324,7 @@ export default class Distribution extends React.Component<any, IState> {
                     height: '100%',
                     width: '100%'
                   }}
-                  src={require('../../assets/imgs/banner1.png')}
+                  src={require('../../assets/imgs/tsne2000.png')}
                 />
                 <p>Visualization Using Tsne</p>
               </div>
@@ -341,7 +341,7 @@ export default class Distribution extends React.Component<any, IState> {
                     height: '100%',
                     width: '100%'
                   }}
-                  src={require('../../assets/imgs/banner.png')}
+                  src={require('../../assets/imgs/digit2000.png')}
                 />
                 <p>Visualization Using Digt</p>
               </div>
