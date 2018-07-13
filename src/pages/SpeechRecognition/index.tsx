@@ -79,7 +79,7 @@ export default class SpeechRecognition extends React.PureComponent<{}, IState> {
         <Progress percent={uploadProgress} status={status} />
         { 
           result ? (
-            <div style={{ marginTop: 20 }}>
+            <div style={{ marginTop: '20px', fontSize: '16px' }}>
               <h3>结果如下</h3>
               <span>{ result }</span>
             </div>
