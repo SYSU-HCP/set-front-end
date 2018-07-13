@@ -17,8 +17,7 @@
 
 .upload-img--example .img-list {
   display: flex;
-  flex-wrap: nowrap;
-  overflow-x: scroll;
+  flex-wrap: wrap;
 }
 
 .upload-img--example .img-list .img-container {
