@@ -221,7 +221,7 @@ export default class IntelligentAlbum extends React.PureComponent<any, IState> {
           </Modal>
         </div>
         <div className="upload-img--example">
-          <p className="upload-img-hint">👇或者使用我们提供一组图片试试（共xx张）。</p>
+          <p className="upload-img-hint">👇或者使用我们提供一组图片试试</p>
           <div className="img-list">
             {
               this.state.images.map((img, index) => {
